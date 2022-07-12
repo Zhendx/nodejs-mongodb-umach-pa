@@ -1,0 +1,42 @@
+<div class="modal fade" id="formIntent" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Nueva Etiqueta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createIntent" action="/intents/add" method="POST">                    
+                    <div class="mb-3">
+                        <label for="tag" class="col-form-label">Etiqueta</label>
+                        <input type="text" class="form-control" id="tag" name="tag" placeholder="Ingrese una etiqueta" required/>
+                    </div>                    
+                    <div class="mb-3">
+                        <label for="patterns" class="col-form-label">Patrones</label>
+                        <a type="button" class="btn btn-success btn-sm" id="addItemPatternF" role="button" aria-disabled="true">
+                            <i class="fa fa-plus-square-o"></i>
+                        </a>                           
+                        <div class="dPatterns0">
+                            <textarea type="text" class="form-control" id="patterns0" name="patterns[]" placeholder="Ingrese un patron" required></textarea>
+                        </div>                
+                        <div class="patterns"></div>
+                    </div>                    
+                    <div class="mb-3">
+                        <label for="responses" class="col-form-label">Respuestas</label>
+                        <a type="button" class="btn btn-success btn-sm" id="addItemResponseF" role="button" aria-disabled="true">
+                            <i class="fa fa-plus-square-o"></i>
+                        </a>                              
+                        <div class="dResponses0">
+                            <textarea type="text" class="form-control" id="responses0" name="responses[]" placeholder="Ingrese una respuesta" required></textarea>
+                        </div>
+                        <div class="responses"></div>
+                    </div>  
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" form="createIntent">Añadir</button>
+            </div>
+        </div>
+    </div>
+</div>

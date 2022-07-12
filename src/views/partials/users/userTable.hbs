@@ -1,0 +1,56 @@
+<div class="card border-light mb-3">
+    <div class="card-title">  
+        <div class="container">
+            <div class="row">            
+                <div class="col-sm-10">                
+                    <h3>Usuarios</h3>               
+                </div>
+                <div class="col-sm-2" style="text-align: end;">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formUser">
+                        Nuevo
+                    </button>  
+                    {{> users/userForm }}           
+                </div>                        
+            </div>
+        </div>                      
+    </div>
+    <div class="card-body">                   
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="example2" class="table table-bordered table-striped dataTable dtr-inline collapsed" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each users}}
+                            {{#if @first}}                                
+                            {{else}}
+                                <tr>
+                                    <td>
+                                        <div class="container">
+                                            <div class="row">
+                                                <a href="/users/{{_id}}/edit" class="btn btn-primary btn-sm active" role="button" aria-disabled="true">
+                                                    <i class="fa-regular fa-pen-to-square"></i> </a>
+                                                <a class="btn btn-danger btn-sm active" onclick="delUser('{{_id}}');" role="button" aria-disabled="true">
+                                                    <i class="fa-regular fa-trash-can"></i></a>
+                                            </div> 
+                                        </div>                               
+                                    </td>
+                                    <td>{{email}}</td>
+                                    <td>{{rol}}</td>
+                                    <td>{{category}}</td>  
+                                </tr>
+                            {{/if}}
+                        {{/each}}                           
+                    </tbody>
+                </table>
+            </div>
+        </div>            
+    </div>
+</div>
+

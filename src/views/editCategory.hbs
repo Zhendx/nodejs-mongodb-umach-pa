@@ -1,0 +1,26 @@
+{{> nav/navigation}}
+
+<main class="container p-4">  
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Actualizar Categoria</h3>
+        </div>        
+        <form action="/categories/{{categories._id}}/edit" method="POST">
+            <div class="card-body overflow-auto" style="max-width: auto; max-height: 400px;">
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <input type="text" class="form-control" id="category" name="category" placeholder="Ingrese una categoria" value="{{categories.category}}"/>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="description">Descripcion</label>
+                    <textarea type="text" class="form-control" id="description" name="description" placeholder="Ingrese una descripcion" required>{{categories.description}}</textarea>
+                </div>                                  
+            </div>
+            <div class="card-footer">
+                <a href="/categories" type="button" class="btn btn-secondary" role="button" aria-disabled="true">Cancelar</a> 
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</main>

@@ -1,0 +1,26 @@
+<div class="modal fade" id="formCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Nueva Categoria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="createCategory" action="/categories/add" method="POST">                    
+                    <div class="mb-3">
+                        <label for="category" class="col-form-label">Categoria</label>
+                        <input type="text" class="form-control" id="category" name="category" placeholder="Ingrese una categoria" required/>
+                    </div>                    
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Descripcion</label>                                                 
+                        <textarea type="text" class="form-control" id="description" name="description" placeholder="Ingrese una descripcion" required></textarea>
+                    </div> 
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" form="createCategory">Añadir</button>
+            </div>
+        </div>
+    </div>
+</div>

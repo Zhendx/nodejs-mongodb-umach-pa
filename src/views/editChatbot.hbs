@@ -1,0 +1,79 @@
+{{> nav/navigation}}
+
+<main class="container p-4">  
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Actualizar Etiqueta</h3>
+        </div>        
+        <form action="/intents/{{intents._id}}/edit" method="POST">
+            <div class="card-body overflow-auto" style="max-width: auto; max-height: 400px;">
+                <div class="form-group">
+                    <label for="tag">Etiqueta</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Ingrese una etiqueta" value="{{intents.tag}}"/>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="patterns">Patrones</label>
+                    <a type="button" class="btn btn-success btn-sm" id="addItemPattern" role="button" aria-disabled="true">
+                        <i class="fa fa-plus-square-o"></i>
+                    </a>   
+                    {{#each intents.patterns as |pattern|}}
+                        {{#if @first}}
+                            <div class="dPatterns0">
+                                <textarea type="text" class="form-control" id="patterns0" name="patterns[]" placeholder="Ingrese un patron" required>{{pattern}}</textarea>
+                            </div>                        
+                        {{else}}
+                            <div id="dPatterns{{@index}}" class="row"> 
+                                <div class="col-md-10" style="margin-top: 5px"> 
+                                    <textarea type="text" class="form-control" id="patterns{{@index}}" name="patterns[]" placeholder="Ingrese un patron" required>{{pattern}}</textarea>                                             
+                                </div>
+                                <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                    <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delpatterns{{@index}}" onclick="delItemPattern({{@index}});" style="cursor: pointer">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>   
+                            {{#if @last}}
+                                <input id="idPattern" style="display: none;" value="{{@index}}">
+                            {{/if}}                     
+                        {{/if}}                    
+                    {{/each}}
+                    <div class="patterns"></div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="responses">Respuestas</label>
+                    <a type="button" class="btn btn-success btn-sm" id="addItemResponse" role="button" aria-disabled="true">
+                        <i class="fa fa-plus-square-o"></i>
+                    </a>
+                    {{#each intents.responses as |response|}}
+                        {{#if @first}}
+                            <div class="dResponses0">
+                                <textarea type="text" class="form-control" id="responses0" name="responses[]" placeholder="Ingrese una respuesta" required>{{response}}</textarea>
+                            </div>                        
+                        {{else}}
+                            <div id="dResponses{{@index}}" class="row"> 
+                                <div class="col-md-10" style="margin-top: 5px"> 
+                                    <textarea type="text" class="form-control" id="responses{{@index}}" name="responses[]" placeholder="Ingrese un patron" required>{{response}}</textarea>                                             
+                                </div>
+                                <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                    <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delresponses{{@index}}" onclick="delItemResponse({{@index}});" style="cursor: pointer">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>   
+                            {{#if @last}}
+                                <input type="number" id="idResponse" style="display: none;" value={{@index}}>
+                            {{/if}}                     
+                        {{/if}}                    
+                    {{/each}}   
+                    <div class="responses"></div>
+                </div>                   
+            </div>
+            <div class="card-footer">
+                <a href="/intents" type="button" class="btn btn-secondary" role="button" aria-disabled="true">Cancelar</a> 
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+        </form>
+    </div>
+</main>

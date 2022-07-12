@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/img/bot-t.png">
+    <title>Panel Administrativo</title>
+    <!-- Font Awesome -->
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/e0a564bd4c.js" crossorigin="anonymous"></script>    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/2.0.2/css/searchPanes.bootstrap5.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.bootstrap5.min.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js" ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js" ></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.js" ></script> 
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/dataTables.searchPanes.min.js"></script> 
+    <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>    
+    <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/2.0.2/js/searchPanes.bootstrap5.min.js"></script>
+    <!-- Sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+    <!-- Login -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">	
+	<link rel="stylesheet" href="css/style.css">
+    <script src="js/popper.js"></script>
+    <script src="js/main.js"></script>
+    <!-- Toast -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">	
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    
+    {{> messages}}   
+    {{> errors}}
+
+    {{{body}}}  
+         
+    <script>
+        var esIndefinidoP = false;
+        var esIndefinidoR = false;
+        esPrimerEP = true;
+        esPrimerER = true;
+        var idP = 0;        
+        var idR = 0; 
+        var idPF = 0;        
+        var idRF = 0;
+        var idI = ""; 
+        var idC = "";
+        var idU = "";
+
+        if($("#idPattern").val() === undefined){
+            esIndefinidoP = true;
+        }else{
+            var constP =  parseInt($("#idPattern").val(), 10);
+        }
+
+        if($("#idResponse").val() === undefined){
+            esIndefinidoR = true;
+        }else{
+            var constR =  parseInt($("#idResponse").val(), 10);
+        }      
+        
+        $.noConflict(); 
+        
+        jQuery(document).ready(function ($) {
+            var table = $('#example1').DataTable({ 
+                language: { 
+                            "decimal": "",
+                            "emptyTable": "No hay información",
+                            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Mostrar _MENU_ Entradas",
+                            "loadingRecords": "Cargando...",
+                            "processing": "Procesando...",
+                            "search": "Buscar:",
+                            "zeroRecords": "Sin resultados encontrados",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            },
+                            searchPanes: {
+                                clearMessage: 'Limpiar selecciones',
+                                collapse: {0: 'Filtrar', _: 'Filtrar (%d)'},
+                                title: {
+                                    _: 'Filtro Seleccionado - %d',
+                                    0: 'Cero filtros seleccionados',
+                                    1: 'Un filtro seleccionado'
+                                }
+                            }
+                }, 
+                pageLength : 5,          
+                lengthChange: false,                
+                buttons: ["copy", "csv", "excel", "pdf", "print", "searchPanes"],
+                dom: "Bfrtip",
+                searchPanes: {
+                    layout: 'columns-2'
+                },
+                columnDefs: [
+                    {
+                        searchPanes: {
+                            show: true
+                        },
+                        targets: [2]
+                    },
+                    {
+                        target: 2,
+                        visible: false
+                    }
+                ] 
+            });  
+            $('#example1').DataTable().searchPanes.rebuildPane(0);
+            table.buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');            
+            
+            var table1 = $('#example2').DataTable({ 
+                language: { 
+                            "decimal": "",
+                            "emptyTable": "No hay información",
+                            "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Mostrar _MENU_ Entradas",
+                            "loadingRecords": "Cargando...",
+                            "processing": "Procesando...",
+                            "search": "Buscar:",
+                            "zeroRecords": "Sin resultados encontrados",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            },
+                            searchPanes: {
+                                clearMessage: 'Limpiar selecciones',
+                                collapse: {0: 'Filtrar', _: 'Filtrar (%d)'},
+                                title: {
+                                    _: 'Filtro Seleccionado - %d',
+                                    0: 'Cero filtros seleccionados',
+                                    1: 'Un filtro seleccionado'
+                                }
+                            }
+                }, 
+                pageLength : 5,          
+                lengthChange: false,                
+                buttons: ["copy", "csv", "excel", "pdf", "print"]                
+            });  
+            $('#example2').DataTable().searchPanes.rebuildPane(0);
+            table1.buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
+
+            $("#addItemPattern").click(function (e) {   
+                if(esPrimerEP == true){
+                    if(esIndefinidoP == false || constP != 0){                        
+                        idP = constP;
+                        esPrimerEP = false;
+                    }else{
+                        idP = 0;
+                    }
+                }                             
+                $("div.patterns").before(`<div id="dPatterns${idP + 1}" class="row"> 
+                                            <div class="col-md-10" style="margin-top: 5px"> 
+                                                <textarea type="text" class="form-control" id="patterns${idP + 1}" name="patterns[]" placeholder="Ingrese un patron" required></textarea>                                             
+                                            </div>
+                                            <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                                <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delpatterns${idP + 1}" onclick="delItemPattern(${idP + 1});" style="cursor: pointer">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>`); 
+                idP = idP + 1;
+                var esIndefinidoP = false;
+            });
+            
+            $("#addItemResponse").click(function (e) {
+                if(esPrimerER == true){
+                    if(esIndefinidoR == false || constR != 0){                        
+                        idR = constR;
+                        esPrimerER = false;
+                    }else{
+                        idR = 0;
+                    }
+                }                   
+                $("div.responses").before(`<div id="dResponses${idR + 1}" class="row">
+                                            <div class="col-md-10" style="margin-top: 5px"> 
+                                                <textarea type="text" class="form-control" id="responses${idR + 1}" name="responses[]" placeholder="Ingrese una respuesta" required></textarea>
+                                            </div>
+                                            <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                                <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delresponses${idR + 1}" onclick="delItemResponse(${idR + 1});" style="cursor: pointer">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>  
+                                            </div>                                          
+                                        </div>`); 
+                idR = idR + 1;
+                var esIndefinidoR = false;
+            });  
+
+            $("#addItemPatternF").click(function (e) {                                               
+                $("div.patterns").before(`<div id="dPatterns${idPF + 1}" class="row"> 
+                                            <div class="col-md-10" style="margin-top: 5px"> 
+                                                <textarea type="text" class="form-control" id="patterns${idPF + 1}" name="patterns[]" placeholder="Ingrese un patron" required></textarea>                                             
+                                            </div>
+                                            <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                                <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delpatterns${idPF + 1}" onclick="delItemPattern(${idPF + 1});" style="cursor: pointer">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
+                                        </div>`); 
+                idPF = idPF + 1;
+            });
+
+            $("#addItemResponseF").click(function (e) {                                  
+                $("div.responses").before(`<div id="dResponses${idRF + 1}" class="row">
+                                            <div class="col-md-10" style="margin-top: 5px"> 
+                                                <textarea type="text" class="form-control" id="responses${idRF + 1}" name="responses[]" placeholder="Ingrese una respuesta" required></textarea>
+                                            </div>
+                                            <div class="col-md-2" style="margin-bottom: auto; margin-top: auto; text-align: end;">
+                                                <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="delresponses${idRF + 1}" onclick="delItemResponse(${idRF + 1});" style="cursor: pointer">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>  
+                                            </div>                                          
+                                        </div>`); 
+                idRF = idRF + 1;
+            });
+
+            $("#show_password").click(function (e) { 
+                var cambio = document.getElementById("password");
+                if(cambio.type == "password"){
+                    cambio.type = "text";
+                    $('#viewPassword').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                }else{
+                    cambio.type = "password";
+                    $('#viewPassword').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                }
+            });    
+        }); 
+
+        function delIntent(idI){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+            Swal.fire({
+                title: 'Desea eliminar este elemento?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar!',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Borrado!',
+                        'Su elemento ha sido borrado.',
+                        'success'                        
+                    ).then((result) => {
+                        window.location = '/intents/'+idI+'/delete';
+                    });  
+                }else if(result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'Tu elemento esta a salvo :)',
+                        'error'
+                    );
+                }
+            });
+        }
+
+        function delCategory(idC){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+            Swal.fire({
+                title: 'Desea eliminar este elemento?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar!',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {  
+                if(result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'Tu elemento esta a salvo :)',
+                        'error'
+                    );
+                }else{
+                    window.location = '/categories/'+idC+'/delete';
+                }
+            });
+        }   
+
+        function delUser(idU){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+            Swal.fire({
+                title: 'Desea eliminar este elemento?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, borrar!',
+                cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Borrado!',
+                        'Su elemento ha sido borrado.',
+                        'success'                        
+                    ).then((result) => {
+                        window.location = '/users/'+idU+'/delete';
+                    });  
+                }else if(result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelado',
+                        'Tu elemento esta a salvo :)',
+                        'error'
+                    );
+                }
+            });
+        }     
+        
+        function delItemPattern(idP) { 
+            document.getElementById("dPatterns" + idP).remove(); 
+        }
+        
+        function delItemResponse(idR) {
+            document.getElementById("dResponses" + idR).remove();
+        }
+    </script>
+</body>
+</html>

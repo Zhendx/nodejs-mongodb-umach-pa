@@ -1,0 +1,107 @@
+<div class="card border-light mb-3">
+    <div class="card-title">  
+        <div class="container">
+            <div class="row">            
+                <div class="col-sm-10">                
+                    <h3>Intenciones</h3>               
+                </div>
+                <div class="col-sm-2" style="text-align: end;">
+                    {{#each rols}}                             
+                        {{#ifCond _id '==' ../user}}                        
+                            {{#ifCond rol '==' "Administrador"}}
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formIntent">
+                                    Nuevo
+                                </button>  
+                                {{> intents/intentForm }}                                 
+                            {{/ifCond}}
+                            {{#ifCond rol '==' "Moderador"}}
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formIntent">
+                                    Nuevo
+                                </button>  
+                                {{> intents/intentForm }} 
+                            {{/ifCond}}  
+                        {{/ifCond}} 
+                    {{/each}}         
+                </div>                        
+            </div>
+        </div>                      
+    </div>
+    <div class="card-body">                   
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="example1" class="table table-bordered table-striped dataTable dtr-inline collapsed" style="width:100%">
+                    <thead>
+                        <tr>                            
+                            <th></th>                                    
+                            <th>Etiqueta</th>                            
+                            <th>Categoria</th> 
+                            <th>Patrones</th>
+                            <th>Respuestas</th>
+                        </tr>
+                    </thead>
+                    {{#each rols}}                             
+                        {{#ifCond _id '==' ../user}}                        
+                            {{#ifCond rol '==' "Administrador"}}
+                                <tbody>
+                                    {{#each ../intents}}
+                                        <tr>
+                                            <td>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <a href="/intents/{{_id}}/edit" class="btn btn-primary btn-sm active" role="button" aria-disabled="true">
+                                                            <i class="fa-regular fa-pen-to-square"></i> </a>
+                                                        <a class="btn btn-danger btn-sm active" onclick="delIntent('{{_id}}');" role="button" aria-disabled="true">
+                                                            <i class="fa-regular fa-trash-can"></i></a>
+                                                    </div> 
+                                                </div>                               
+                                            </td>
+                                            <td>{{tag}}</td>                                            
+                                            <td>{{category}}</td>                                              
+                                            <td>{{patterns}}</td>
+                                            <td>{{responses}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            {{/ifCond}}
+                            {{#ifCond rol '==' "Moderador"}}
+                                <tbody>
+                                    {{#each ../intents}}
+                                        <tr>
+                                            <td>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <a href="/intents/{{_id}}/edit" class="btn btn-primary btn-sm active" role="button" aria-disabled="true">
+                                                            <i class="fa-regular fa-pen-to-square"></i> </a>
+                                                        <a class="btn btn-danger btn-sm active" onclick="delIntent('{{_id}}');" role="button" aria-disabled="true">
+                                                            <i class="fa-regular fa-trash-can"></i></a>
+                                                    </div> 
+                                                </div>                               
+                                            </td>
+                                            <td>{{tag}}</td>
+                                            <td>{{category}}</td>
+                                            <td>{{patterns}}</td>
+                                            <td>{{responses}}</td>
+                                        </tr>
+                                    {{/each}}
+                                </tbody>
+                            {{/ifCond}}
+                            {{#ifCond rol '==' "Visitante"}}
+                                <tbody>
+                                    {{#each ../intents}}                                   
+                                        <tr> 
+                                            <td>{{@index}}</td>                                           
+                                            <td>{{tag}}</td>
+                                            <td>{{category}}</td>
+                                            <td>{{patterns}}</td>
+                                            <td>{{responses}}</td>
+                                        </tr>
+                                    {{/each}}                                  
+                                </tbody>
+                            {{/ifCond}}
+                        {{/ifCond}}
+                    {{/each}}                    
+                </table>
+            </div>
+        </div>            
+    </div>
+</div>
