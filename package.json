@@ -4,7 +4,8 @@
   "description": "panel administrativo",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node"
+    "dev": "nodemon src/index.js --exec babel-node",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "mack",
