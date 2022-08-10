@@ -69,15 +69,21 @@ export const renderChatbot = async (req, res) => {
 
 export const createChatbot = async (req, res) => {
   try {
+    const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
     const user = await Users.find({_id: req.user.id});
     const idCategory = user[0].category;
+    const category = await Categories.find({_id: idCategory}).lean();
     var pattern = [];
     var response = [];
-    pattern = req.body.patterns;
+    //Funcion para remover caracteres especiales
+    
+    for (var i=0; i < req.body.patterns.length; i++) {    
+      pattern.push(req.body.patterns[i].split('').map( letra => acentos[letra] || letra).join('').toString());
+    }
     response = req.body.responses;    
     
     const intents = new Intents({
-      tag : req.body.tag,
+      tag : req.body.tag + ' ' + category[0].category,
       patterns : pattern,
       responses : response,
       category : idCategory    
